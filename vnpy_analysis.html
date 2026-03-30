@@ -10,59 +10,52 @@
 :root {
     --bg: #080c14; --bg2: #0f1923; --bg3: #1a2332; --surface: rgba(255,255,255,0.04);
     --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12); --text: #e8edf5; --text2: #8899b0; --text3: #4a5568;
-    --accent: #3b82f6; --accent2: #60a5fa; --green: #10b981; --green2: #059669; --red: #ef4444; --red2: #dc2626;
-    --amber: #f59e0b; --purple: #8b5cf6; --cyan: #06b6d4;
-    --card-bg: rgba(15,25,35,0.85);
+    --accent: #3b82f6; --green: #10b981; --red: #ef4444; --amber: #f59e0b; --purple: #8b5cf6; --cyan: #06b6d4;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.5; background-image: radial-gradient(ellipse at 20% 0%, rgba(59,130,246,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 100%, rgba(139,92,246,0.06) 0%, transparent 50%); }
 .container { max-width: 1400px; margin: 0 auto; padding: 1.25rem 1.5rem; }
 
-/* ─── Header ─── */
+/* Header */
 .header { text-align: center; padding: 1.25rem 0 0.875rem; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
-.logo { font-size: 1.3rem; font-weight: 900; background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
+.logo { font-size: 1.3rem; font-weight: 900; background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 .subtitle { color: var(--text3); font-size: 0.7rem; margin-left: 0.5rem; }
 
-/* ─── Search ─── */
-.search-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1rem; backdrop-filter: blur(10px); }
+/* Search */
+.search-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
 .search-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; justify-content: center; }
-.search-input { flex: 1; min-width: 200px; max-width: 320px; padding: 0.7rem 1rem; border-radius: 10px; border: 1px solid var(--border2); background: var(--bg3); color: var(--text); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; transition: border-color 0.2s, box-shadow 0.2s; }
-.search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); outline: none; }
-.search-input::placeholder { color: var(--text3); }
+.search-input { flex: 1; min-width: 200px; max-width: 320px; padding: 0.7rem 1rem; border-radius: 10px; border: 1px solid var(--border2); background: var(--bg3); color: var(--text); font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; }
+.search-input:focus { border-color: var(--accent); outline: none; }
 .param-group { display: flex; align-items: center; gap: 0.35rem; background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 0.55rem 0.75rem; }
 .param-label { color: var(--text2); font-size: 0.72rem; font-weight: 500; }
 .param-input { width: 48px; padding: 0.25rem; border-radius: 6px; border: 1px solid var(--border); background: var(--bg2); color: var(--text); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; text-align: center; }
-.search-btn { padding: 0.7rem 1.5rem; border-radius: 10px; border: none; background: linear-gradient(135deg, #3b82f6, #7c3aed); color: #fff; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s, transform 0.1s; letter-spacing: 0.02em; }
+.search-btn { padding: 0.7rem 1.5rem; border-radius: 10px; border: none; background: linear-gradient(135deg, #3b82f6, #7c3aed); color: #fff; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s, transform 0.1s; }
 .search-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-.search-btn:active { transform: translateY(0); }
-.search-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* ─── Grid Layout ─── */
+/* Dashboard Grid */
 .dashboard { display: grid; grid-template-columns: 1fr 320px; gap: 1rem; align-items: start; }
 @media (max-width: 1024px) { .dashboard { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .container { padding: 1rem; } }
 
-/* ─── Cards ─── */
-.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; backdrop-filter: blur(10px); overflow: hidden; margin-bottom: 0; }
+/* Cards */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 0; }
 .card + .card { margin-top: 0.75rem; }
 .card-header { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.8rem; color: var(--text2); letter-spacing: 0.03em; }
-.card-header .icon { font-size: 0.9rem; }
-.card-body { padding: 0.875rem 1rem; overflow: hidden; }
-.card-body.no-pad { padding: 0; }
+.card-body { padding: 0.875rem 1rem; }
 
-/* ─── Stock Hero ─── */
-.stock-hero { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: center; padding: 0.875rem 1rem; }
+/* Stock Hero */
+.stock-hero { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0.875rem 1rem; }
 .hero-left { min-width: 0; }
-.stock-name { font-size: 1.15rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.stock-name { font-size: 1.15rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stock-code { font-size: 0.7rem; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-top: 0.125rem; }
 .stock-tags { display: flex; gap: 0.3rem; margin-top: 0.4rem; flex-wrap: wrap; }
-.tag { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.03em; }
+.tag { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.62rem; font-weight: 600; }
 .tag.up { background: rgba(16,185,129,0.15); color: var(--green); }
 .tag.down { background: rgba(239,68,68,0.15); color: var(--red); }
 .tag.neutral { background: rgba(100,116,139,0.2); color: var(--text2); }
-
 .hero-price { text-align: center; padding: 0 1rem; border-left: 1px solid var(--border); border-right: 1px solid var(--border); min-width: 140px; }
 .price-main { font-size: 1.8rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1.1; }
 .price-main.up { color: var(--green); }
@@ -70,40 +63,16 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
 .change-main { font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem; }
 .change-main.up { color: var(--green); }
 .change-main.down { color: var(--red); }
-
 .hero-right { display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-end; padding-left: 1rem; }
 .ohlc-item { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; color: var(--text3); display: flex; gap: 0.4rem; }
 .ohlc-item span:last-child { color: var(--text2); font-weight: 500; }
 .vol-item { font-size: 0.7rem; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-top: 0.15rem; }
 .vol-item span { color: var(--text2); font-weight: 600; }
 
-/* ─── K线 Chart ─── */
-/* ─── Score Card ─── */
-.score-section { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-.score-big { grid-column: 1 / -1; background: var(--bg3); border-radius: 10px; padding: 0.75rem; text-align: center; border: 1px solid var(--border); }
-.score-number { font-size: 2.5rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; line-height: 1; }
-.score-number.up { color: var(--green); }
-.score-number.down { color: var(--red); }
-.score-number.neutral { color: var(--amber); }
-.score-label { font-size: 0.65rem; color: var(--text3); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.1em; }
-.score-bar-wrap { grid-column: 1 / -1; background: var(--bg3); border-radius: 8px; padding: 0.5rem 0.75rem; border: 1px solid var(--border); }
-.score-bar { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--red), var(--amber), var(--green)); position: relative; margin-top: 0.3rem; }
-.score-marker { position: absolute; top: -3px; width: 12px; height: 12px; background: #fff; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 4px rgba(0,0,0,0.5); }
+/* Data Info Bar */
+.data-info-bar { font-size: 0.65rem; color: var(--text3); text-align: center; padding: 0.5rem; background: var(--surface); border-radius: 8px; margin: 0.75rem 0; border: 1px solid var(--border); }
 
-/* ─── Metrics Grid ─── */
-.metrics-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
-.metrics-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
-.metric-card { background: var(--bg3); border-radius: 10px; padding: 0.625rem 0.75rem; border: 1px solid var(--border); text-align: center; transition: border-color 0.2s; }
-.metric-card:hover { border-color: var(--accent); }
-.metric-label { font-size: 0.6rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; margin-bottom: 0.2rem; }
-.metric-val { font-size: 1rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; line-height: 1.2; }
-.metric-val.up, .metric-val.excellent { color: var(--green); }
-.metric-val.down, .metric-val.bad { color: var(--red); }
-.metric-val.neutral, .metric-val.warning { color: var(--amber); }
-.metric-val.good { color: var(--cyan); }
-.metric-sub { font-size: 0.58rem; color: var(--text3); margin-top: 0.1rem; line-height: 1.3; }
-
-/* ─── Signals ─── */
+/* Signals - single column stacked */
 .signals-header { display: flex; gap: 0.4rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
 .sig-badge { padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.68rem; font-weight: 600; display: flex; align-items: center; gap: 0.2rem; }
 .sig-badge.gold { background: rgba(16,185,129,0.15); color: var(--green); }
@@ -112,57 +81,85 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
 .sig-badge.opportunity { background: rgba(6,182,212,0.15); color: var(--cyan); }
 .sig-badge.neutral { background: rgba(100,116,139,0.15); color: var(--text2); }
 
-.signal-item { display: flex; gap: 0.625rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); align-items: flex-start; width: 100%; box-sizing: border-box; }
-.signal-item:last-child { border-bottom: none; }
-.signal-item > * { flex-shrink: 0; word-break: break-word; }
-.sig-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; flex-basis: 8px; }
+.signal-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.signal-row { display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.625rem; border-radius: 8px; }
+.signal-row.gold { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); }
+.signal-row.dead { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); }
+.signal-row.risk { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); }
+.signal-row.opportunity { background: rgba(6,182,212,0.07); border: 1px solid rgba(6,182,212,0.2); }
+.signal-row.neutral { background: rgba(100,116,139,0.07); border: 1px solid rgba(100,116,139,0.2); }
 .sig-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 0.35rem; }
-.sig-dot.gold { background: var(--green); box-shadow: 0 0 6px rgba(16,185,129,0.5); }
-.sig-dot.dead { background: var(--red); box-shadow: 0 0 6px rgba(239,68,68,0.5); }
-.sig-dot.risk { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.5); }
-.sig-dot.opportunity { background: var(--cyan); box-shadow: 0 0 6px rgba(6,182,212,0.5); }
+.sig-dot.gold { background: var(--green); }
+.sig-dot.dead { background: var(--red); }
+.sig-dot.risk { background: var(--amber); }
+.sig-dot.opportunity { background: var(--cyan); }
 .sig-dot.neutral { background: var(--text3); }
-.sig-body { flex: 1 1 auto; min-width: 0; overflow: hidden; }
-.sig-type { font-size: 0.75rem; font-weight: 600; color: var(--text); }
-.sig-desc { font-size: 0.68rem; color: var(--text2); margin-top: 0.05rem; }
-.sig-adv { font-size: 0.65rem; color: var(--amber); margin-top: 0.2rem; padding: 0.15rem 0.4rem; background: rgba(245,158,11,0.1); border-radius: 4px; display: inline-block; }
+.sig-info { flex: 1; min-width: 0; }
+.sig-type { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+.sig-desc { font-size: 0.7rem; color: var(--text2); margin-top: 0.05rem; }
+.sig-adv { font-size: 0.68rem; color: var(--amber); margin-top: 0.3rem; padding: 0.15rem 0.5rem; background: rgba(245,158,11,0.1); border-radius: 4px; display: inline-block; }
 
-/* ─── Indicator Grid ─── */
+/* Copy Button */
+.copy-btn-wrap { display: flex; justify-content: flex-end; margin-bottom: 0.5rem; }
+.copy-btn { padding: 0.4rem 0.75rem; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg3); color: var(--text2); font-size: 0.72rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Indicator Grid */
 .ind-group { margin-bottom: 0.875rem; }
 .ind-group:last-child { margin-bottom: 0; }
-.ind-title { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
-.ind-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.ind-group-title { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; font-weight: 600; }
 .ind-row { display: flex; gap: 0.375rem; flex-wrap: wrap; }
-.ind-cell { background: var(--bg3); border-radius: 8px; padding: 0.4rem 0.6rem; border: 1px solid var(--border); flex: 1 1 60px; min-width: 60px; cursor: help; transition: border-color 0.2s, background 0.2s; position: relative; }
-.ind-cell:hover { border-color: var(--accent); background: rgba(59,130,246,0.06); z-index: 5; }
-.ind-name { font-size: 0.58rem; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-.ind-val { font-size: 0.85rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-top: 0.1rem; }
-.ind-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 0.6rem 0.75rem; width: 220px; font-size: 0.72rem; color: var(--text2); line-height: 1.6; z-index: 200; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s; pointer-events: none; box-shadow: 0 8px 30px rgba(0,0,0,0.6); white-space: normal; }
-.ind-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--bg3); }
-.ind-cell:hover .ind-tip { opacity: 1; visibility: visible; }
-.ind-tip-title { font-weight: 700; color: var(--text); margin-bottom: 0.2rem; font-size: 0.75rem; }
-.ind-tip-f { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--cyan); margin-bottom: 0.3rem; }
-.ind-tip-adv { color: var(--amber); font-size: 0.68rem; }
+.ind-cell { background: var(--bg3); border-radius: 8px; padding: 0.5rem 0.6rem; border: 1px solid var(--border); flex: 1 1 70px; min-width: 70px; position: relative; cursor: help; transition: border-color 0.2s, background 0.2s; }
+.ind-cell:hover { border-color: var(--accent); background: rgba(59,130,246,0.06); }
+.ind-name { font-size: 0.6rem; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+.ind-val { font-size: 0.88rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-top: 0.1rem; }
 
-/* ─── Final Recommendation ─── */
-.final-rec { background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08)); border: 1px solid var(--border2); border-radius: 12px; padding: 0.875rem 1rem; margin-top: 0; }
-.final-title { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
-.final-text { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.5; }
+/* Tooltip - absolutely positioned, NOT inside flex/overflow parents */
+.ind-tip { position: fixed; background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 0.75rem; width: 230px; font-size: 0.73rem; color: var(--text2); line-height: 1.65; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s; pointer-events: none; box-shadow: 0 12px 40px rgba(0,0,0,0.7); }
+.ind-tip.visible { opacity: 1; visibility: visible; }
+.ind-tip-title { font-weight: 700; color: var(--text); margin-bottom: 0.25rem; font-size: 0.78rem; }
+.ind-tip-f { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--cyan); margin-bottom: 0.35rem; }
+.ind-tip-adv { color: var(--amber); font-size: 0.7rem; margin-top: 0.3rem; }
+
+/* Score */
+.score-big { background: var(--bg3); border-radius: 10px; padding: 0.875rem; text-align: center; border: 1px solid var(--border); margin-bottom: 0.5rem; }
+.score-number { font-size: 2.8rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; line-height: 1; }
+.score-number.up { color: var(--green); }
+.score-number.down { color: var(--red); }
+.score-number.neutral { color: var(--amber); }
+.score-label { font-size: 0.68rem; color: var(--text3); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.score-bar-wrap { background: var(--bg3); border-radius: 8px; padding: 0.5rem 0.75rem; border: 1px solid var(--border); }
+.score-labels { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--text3); margin-bottom: 0.3rem; }
+.score-bar { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--red), var(--amber), var(--green)); position: relative; }
+.score-marker { position: absolute; top: -3px; width: 12px; height: 12px; background: #fff; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 4px rgba(0,0,0,0.5); }
+
+/* Metrics */
+.metrics-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+.metric-card { background: var(--bg3); border-radius: 10px; padding: 0.625rem 0.75rem; border: 1px solid var(--border); text-align: center; }
+.metric-label { font-size: 0.6rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; margin-bottom: 0.2rem; }
+.metric-val { font-size: 1rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; line-height: 1.2; }
+.metric-val.up, .metric-val.excellent { color: var(--green); }
+.metric-val.down, .metric-val.bad { color: var(--red); }
+.metric-val.neutral, .metric-val.warning { color: var(--amber); }
+.metric-val.good { color: var(--cyan); }
+.metric-sub { font-size: 0.58rem; color: var(--text3); margin-top: 0.1rem; line-height: 1.3; }
+
+/* Final Recommendation */
+.final-rec { background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08)); border: 1px solid var(--border2); border-radius: 12px; padding: 0.875rem 1rem; margin-top: 0.75rem; }
+.final-title { font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.final-text { font-size: 0.88rem; font-weight: 600; color: var(--text); line-height: 1.5; }
 .final-text .bull { color: var(--green); }
 .final-text .bear { color: var(--red); }
 .final-text .warn { color: var(--amber); }
 
-/* ─── Data Info ─── */
-.data-info { font-size: 0.65rem; color: var(--text3); text-align: center; margin-top: 0.75rem; }
-
-/* ─── Loading / Error ─── */
+/* Loading / Error */
 .loading { text-align: center; padding: 3.5rem; color: var(--text3); font-size: 0.875rem; }
 .loading::after { content: ''; display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 0.75rem; vertical-align: middle; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .error { text-align: center; padding: 3.5rem; color: var(--red); font-size: 0.875rem; }
 .hidden { display: none !important; }
 
-/* ─── Footer ─── */
+/* Footer */
 .footer { text-align: center; padding: 1.25rem; color: var(--text3); font-size: 0.65rem; border-top: 1px solid var(--border); margin-top: 1.25rem; }
 .footer a { color: var(--accent); text-decoration: none; }
 </style>
@@ -217,20 +214,26 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
                     </div>
                 </div>
                 
-                <div class="data-info" id="dataInfo" style="margin:0.75rem 0 0;font-size:0.65rem;color:var(--text3);text-align:center;"></div>
+                <!-- Data Info -->
+                <div class="data-info-bar" id="dataInfo"></div>
                 
                 <!-- Signals -->
-                <div class="card" style="margin-top:0.75rem">
-                    <div class="card-header"><span class="icon">🎯</span>信号分析 <button id="copyBtn" onclick="copyIndicators()" style="margin-left:auto;padding:0.25rem 0.625rem;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:0.65rem;cursor:pointer;font-family:'Inter',sans-serif">📋 复制完整数据</button></div>
+                <div class="card">
+                    <div class="card-header">
+                        <span>🎯</span>信号分析
+                        <div class="copy-btn-wrap" style="margin-left:auto">
+                            <button class="copy-btn" id="copyBtn" onclick="copyIndicators()">📋 复制完整数据</button>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="signals-header" id="signalBadges"></div>
-                        <div id="signalsList"></div>
+                        <div class="signal-list" id="signalsList"></div>
                     </div>
                 </div>
                 
-                <!-- Technical Indicators -->
-                <div class="card" style="margin-top:0.75rem">
-                    <div class="card-header"><span class="icon">📈</span>技术指标（悬停查看说明）</div>
+                <!-- Indicators -->
+                <div class="card">
+                    <div class="card-header"><span>📈</span>技术指标（悬停查看说明）</div>
                     <div class="card-body" id="indicatorsWrap"></div>
                 </div>
             </div>
@@ -239,47 +242,39 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
             <div>
                 <!-- Score -->
                 <div class="card">
-                    <div class="card-header"><span class="icon">📋</span>综合评分</div>
+                    <div class="card-header"><span>📋</span>综合评分</div>
                     <div class="card-body">
-                        <div class="score-section">
-                            <div class="score-big">
-                                <div class="score-number up" id="scoreNum">--</div>
-                                <div class="score-label" id="scoreLabel">综合评分</div>
-                            </div>
-                            <div class="score-bar-wrap">
-                                <div style="display:flex;justify-content:space-between;font-size:0.6rem;color:var(--text3)"><span>空头</span><span>中性</span><span>多头</span></div>
-                                <div class="score-bar"><div class="score-marker" id="scoreMarker" style="left:50%"></div></div>
-                            </div>
+                        <div class="score-big">
+                            <div class="score-number up" id="scoreNum">--</div>
+                            <div class="score-label" id="scoreLabel">综合评分</div>
+                        </div>
+                        <div class="score-bar-wrap">
+                            <div class="score-labels"><span>空头</span><span>中性</span><span>多头</span></div>
+                            <div class="score-bar"><div class="score-marker" id="scoreMarker" style="left:50%"></div></div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Backtest -->
                 <div class="card">
-                    <div class="card-header"><span class="icon">📈</span>回测参数</div>
-                    <div class="card-body">
-                        <div class="metrics-2" id="backtestParams"></div>
-                    </div>
+                    <div class="card-header"><span>📈</span>回测参数</div>
+                    <div class="card-body"><div class="metrics-2" id="backtestParams"></div></div>
                 </div>
                 
                 <!-- Return -->
                 <div class="card">
-                    <div class="card-header"><span class="icon">💰</span>收益指标</div>
-                    <div class="card-body">
-                        <div class="metrics-2" id="returnMetrics"></div>
-                    </div>
+                    <div class="card-header"><span>💰</span>收益指标</div>
+                    <div class="card-body"><div class="metrics-2" id="returnMetrics"></div></div>
                 </div>
                 
                 <!-- Risk -->
                 <div class="card">
-                    <div class="card-header"><span class="icon">⚠️</span>风险指标</div>
-                    <div class="card-body">
-                        <div class="metrics-2" id="riskMetrics"></div>
-                    </div>
+                    <div class="card-header"><span>⚠️</span>风险指标</div>
+                    <div class="card-body"><div class="metrics-2" id="riskMetrics"></div></div>
                 </div>
                 
                 <!-- Final Rec -->
-                <div class="final-rec" id="finalRec">
+                <div class="final-rec">
                     <div class="final-title">综合建议</div>
                     <div class="final-text" id="finalText">--</div>
                 </div>
@@ -291,10 +286,13 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
     <div id="errorArea" class="error hidden"></div>
     
     <div class="footer">
-        <p>VeighNa 量化分析系统 · 数据来源: akshare · MA均线交叉策略</p>
+        <p>VeighNa 量化分析系统 · 数据来源: akshare + baostock · MA均线交叉策略</p>
         <p style="margin-top:0.2rem"><a href="https://www.vnpy.com" target="_blank">vnpy.com</a> · 仅供参考，不构成投资建议</p>
     </div>
 </div>
+
+<!-- Tooltip element (fixed position, NOT inside any flex/overflow container) -->
+<div class="ind-tip" id="indTip"></div>
 
 <script>
 const API = '/stock-api2';
@@ -316,6 +314,7 @@ async function api(path) {
 }
 
 const fmt = (n, d = 2) => (n == null || isNaN(n)) ? '--' : Number(n).toFixed(d);
+
 const cls = (k, v) => {
     const n = Number(v) || 0;
     if (['annualized_return','total_return','final_capital'].includes(k)) return n > 0 ? 'up' : n < 0 ? 'down' : 'neutral';
@@ -325,33 +324,78 @@ const cls = (k, v) => {
     if (['alpha'].includes(k)) return n > 0 ? 'up' : n < 0 ? 'down' : 'neutral';
     return 'neutral';
 };
-const colorOf = c => c === 'up' || c === 'excellent' ? 'var(--green)' : c === 'down' || c === 'bad' ? 'var(--red)' : c === 'good' ? 'var(--cyan)' : c === 'warning' ? 'var(--amber)' : 'var(--text2)';
 
-// ── Indicator meta ──────────────────────────────────────────────────────
 const INDICATOR_META = {
-    sma_5:    { name: 'MA5',   cat: 'trend',      title: '5日均线',       formula: 'ΣClose/5',                         desc: '短期均价', advice: '>MA20多头' },
-    sma_10:   { name: 'MA10',  cat: 'trend',      title: '10日均线',       formula: 'ΣClose/10',                        desc: '短中期均价', advice: '支撑压力参考' },
-    sma_20:   { name: 'MA20',  cat: 'trend',      title: '20日均线',       formula: 'ΣClose/20',                        desc: '月线，中期趋势', advice: '多空分界' },
-    sma_60:   { name: 'MA60',  cat: 'trend',      title: '60日均线',       formula: 'ΣClose/60',                        desc: '季线，牛熊分界', advice: '年线下方偏空' },
-    ema_12:   { name: 'EMA12', cat: 'trend',      title: 'EMA12',         formula: 'α×Close+(1-α)×EMA, α=2/13',      desc: 'MACD核心组件', advice: '价格敏感' },
-    ema_26:   { name: 'EMA26', cat: 'trend',      title: 'EMA26',         formula: 'α×Close+(1-α)×EMA, α=2/27',      desc: 'MACD核心组件', advice: '计算基础' },
-    macd:     { name: 'MACD',  cat: 'momentum',   title: 'MACD线',         formula: 'EMA12 - EMA26',                     desc: '快慢均线差值，动能指标', advice: '零轴上方强势' },
-    macd_signal: { name: 'Signal', cat: 'momentum', title: 'Signal',        formula: 'EMA(MACD,9)',                      desc: 'MACD信号线', advice: '金叉买入' },
-    macd_hist:{ name: 'Hist',  cat: 'momentum',   title: 'MACD柱',         formula: 'MACD - Signal',                     desc: '红柱多头，绿柱空头', advice: '柱放大趋势强' },
-    rsi_14:   { name: 'RSI14', cat: 'momentum',   title: 'RSI-14',         formula: '100-100/(1+RS), RS=涨/跌',         desc: '超买超卖，>70超买', advice: '>70注意回调,<30反弹' },
-    kdj_k:    { name: 'KDJ-K', cat: 'momentum',   title: 'KDJ-K',          formula: 'RSV平滑K值',                        desc: '快速随机指标', advice: '>80超买,<20超卖' },
-    kdj_d:    { name: 'KDJ-D', cat: 'momentum',   title: 'KDJ-D',          formula: 'MA(K,3)',                          desc: '慢速随机指标', advice: 'K上穿D买入' },
-    bb_upper: { name: 'BB上',  cat: 'volatility', title: '布林上轨',       formula: 'MA20+2×STD',                       desc: '价格压力位', advice: '触及注意压力' },
-    bb_middle:{ name: 'BB中',  cat: 'volatility', title: '布林中轨',       formula: 'SMA(Close,20)',                     desc: '多空分界', advice: '上下轨操作' },
-    bb_lower: { name: 'BB下',  cat: 'volatility', title: '布林下轨',       formula: 'MA20-2×STD',                       desc: '价格支撑位', advice: '触及关注反弹' },
-    adx:      { name: 'ADX',   cat: 'trend',      title: 'ADX',            formula: 'MA(DX,14)',                         desc: '趋势强度,>25明确', advice: '<20震荡' },
-    atr:      { name: 'ATR',   cat: 'volatility', title: 'ATR',            formula: 'MA(TR,14)',                         desc: '波动幅度', advice: 'ATR大波动大' },
-    cci:      { name: 'CCI',   cat: 'momentum',   title: 'CCI',            formula: '(TP-MA)/(0.015×MAD)',                 desc: '顺势指标,>100超买', advice: '极端值预警' },
-    wr:       { name: 'WR',    cat: 'momentum',   title: '威廉指标',       formula: '-100×(HH-C)/(HH-LL)',                desc: '超买超卖,< -80超卖', advice: '反向操作参考' },
-    roc:      { name: 'ROC',   cat: 'momentum',   title: '变动率',         formula: '100×(C-Cn)/Cn',                     desc: '价格变化百分比', advice: '>0强势' },
-    psy:      { name: 'PSY',   cat: 'momentum',   title: '心理线',         formula: '上涨天数/总天数×100',                  desc: '情绪指标,>75过热', advice: '<25过冷' },
-    obv:      { name: 'OBV',   cat: 'volume',     title: '能量潮',         formula: 'ΣVolume×sign(ΔClose)',              desc: '量价配合', advice: '与价格背离预警' },
+    sma_5:    { name: 'MA5',    title: '5日均线',      formula: 'ΣClose/5',                         desc: '短期均价', advice: '>MA20多头,<MA20空头' },
+    sma_10:   { name: 'MA10',   title: '10日均线',     formula: 'ΣClose/10',                        desc: '短中期均价', advice: '支撑压力参考' },
+    sma_20:   { name: 'MA20',   title: '20日均线',     formula: 'ΣClose/20',                        desc: '月线，中期趋势', advice: '多空分界' },
+    sma_60:   { name: 'MA60',   title: '60日均线',     formula: 'ΣClose/60',                        desc: '季线，牛熊分界', advice: '年线下方偏空' },
+    ema_12:   { name: 'EMA12',  title: 'EMA12',        formula: 'α×Close+(1-α)×EMA, α=2/13',       desc: 'MACD核心组件', advice: '价格敏感' },
+    ema_26:   { name: 'EMA26',  title: 'EMA26',        formula: 'α×Close+(1-α)×EMA, α=2/27',       desc: 'MACD核心组件', advice: '计算基础' },
+    macd:     { name: 'MACD',   title: 'MACD线',        formula: 'EMA12 - EMA26',                    desc: '快慢均线差值，动能指标', advice: '零轴上方强势' },
+    macd_signal: { name: 'Signal', title: 'Signal',     formula: 'EMA(MACD,9)',                       desc: 'MACD信号线', advice: '金叉买入，死叉卖出' },
+    macd_hist:{ name: 'Hist',  title: 'MACD柱',        formula: 'MACD - Signal',                     desc: '红柱多头，绿柱空头', advice: '柱放大趋势强' },
+    rsi_14:   { name: 'RSI14', title: 'RSI-14',        formula: '100-100/(1+RS), RS=涨/跌',         desc: '超买>70，超卖<30', advice: '>70注意回调,<30反弹' },
+    kdj_k:    { name: 'KDJ-K', title: 'KDJ-K',         formula: 'RSV平滑K值',                        desc: '快速随机指标', advice: '>80超买,<20超卖' },
+    kdj_d:    { name: 'KDJ-D', title: 'KDJ-D',         formula: 'MA(K,3)',                           desc: '慢速随机指标', advice: 'K上穿D买入' },
+    bb_upper: { name: 'BB上',  title: '布林上轨',       formula: 'MA20+2×STD',                        desc: '价格压力位', advice: '触及注意压力' },
+    bb_middle:{ name: 'BB中',  title: '布林中轨',       formula: 'SMA(Close,20)',                     desc: '多空分界', advice: '上下轨操作' },
+    bb_lower: { name: 'BB下',  title: '布林下轨',       formula: 'MA20-2×STD',                        desc: '价格支撑位', advice: '触及关注反弹' },
+    adx:      { name: 'ADX',   title: 'ADX',           formula: 'MA(DX,14)',                        desc: '趋势强度,>25明确', advice: '<20震荡' },
+    atr:      { name: 'ATR',   title: 'ATR',            formula: 'MA(TR,14)',                          desc: '波动幅度', advice: 'ATR大波动大' },
+    cci:      { name: 'CCI',   title: 'CCI',            formula: '(TP-MA)/(0.015×MAD)',                desc: '顺势指标,>100超买', advice: '极端值预警' },
+    wr:       { name: 'WR',   title: '威廉指标',       formula: '-100×(HH-C)/(HH-LL)',               desc: '超买<-20,超卖<-80', advice: '反向操作参考' },
+    roc:      { name: 'ROC',   title: '变动率',         formula: '100×(C-Cn)/Cn',                     desc: '价格变化百分比', advice: '>0强势,<0弱势' },
+    psy:      { name: 'PSY',   title: '心理线',         formula: '上涨天数/总天数×100',                   desc: '情绪指标,>75过热,<25过冷', advice: '过热谨慎,过冷关注' },
+    obv:      { name: 'OBV',   title: '能量潮',         formula: 'ΣVolume×sign(ΔClose)',               desc: '量价配合', advice: '与价格背离预警' },
 };
+
+const valColor = (k, v, cur) => {
+    if (v == null || isNaN(v)) return 'var(--text2)';
+    if (['sma_5','sma_10','sma_20','sma_60','ema_12','ema_26','macd','macd_signal'].includes(k)) {
+        return (cur || 0) > v ? 'var(--green)' : 'var(--red)';
+    }
+    if (k === 'rsi_14') { const n = Number(v); return n > 70 ? 'var(--red)' : n < 30 ? 'var(--green)' : 'var(--text)'; }
+    if (k === 'kdj_k' || k === 'kdj_d') { const n = Number(v); return n > 80 ? 'var(--red)' : n < 20 ? 'var(--green)' : 'var(--text)'; }
+    if (k === 'macd_hist') return v > 0 ? 'var(--green)' : 'var(--red)';
+    if (k === 'wr') { const n = Number(v); return n < -80 ? 'var(--green)' : n > -20 ? 'var(--red)' : 'var(--text)'; }
+    if (k === 'cci') { const n = Number(v); return n > 100 ? 'var(--red)' : n < -100 ? 'var(--green)' : 'var(--text)'; }
+    if (k === 'psy') { const n = Number(v); return n > 75 ? 'var(--red)' : n < 25 ? 'var(--green)' : 'var(--text)'; }
+    return 'var(--text)';
+};
+
+// ── Tooltip ─────────────────────────────────────────────────────────────
+const tip = document.getElementById('indTip');
+document.addEventListener('mouseover', e => {
+    const cell = e.target.closest('.ind-cell');
+    if (!cell) { tip.classList.remove('visible'); return; }
+    const key = cell.dataset.key;
+    const meta = INDICATOR_META[key];
+    if (!meta) { tip.classList.remove('visible'); return; }
+    const v = parseFloat(cell.dataset.val);
+    const cur = parseFloat(cell.dataset.cur || 0);
+    const color = valColor(key, v, cur);
+    const decimal = ['macd','macd_signal','macd_hist','roc'].includes(key) ? 3 : 2;
+    const valStr = v != null && !isNaN(v) ? Number(v).toFixed(decimal) : '--';
+    tip.innerHTML = `<div class="ind-tip-title">${meta.title} = <span style="color:${color}">${valStr}</span></div>
+        <div class="ind-tip-f">${meta.formula}</div>
+        <div style="color:var(--text2);margin-bottom:0.3rem">${meta.desc}</div>
+        <div class="ind-tip-adv">💡 ${meta.advice}</div>`;
+    // Position tooltip above/below cell, keeping within viewport
+    const rect = cell.getBoundingClientRect();
+    const tipW = 230, tipH = 140;
+    let left = rect.left + rect.width / 2 - tipW / 2;
+    let top = rect.top - tipH - 10;
+    if (top < 10) { top = rect.bottom + 10; } // flip below if no room
+    if (left < 5) left = 5;
+    if (left + tipW > window.innerWidth - 5) left = window.innerWidth - tipW - 5;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.classList.add('visible');
+});
+document.addEventListener('mouseout', e => {
+    if (!e.target.closest('.ind-cell')) tip.classList.remove('visible');
+});
 
 // ── Analysis ─────────────────────────────────────────────────────────────
 async function analyze() {
@@ -389,7 +433,154 @@ function showResult() {
     document.getElementById('resultArea').classList.remove('hidden');
 }
 
-// ── Copy ALL indicators to clipboard (raw data for AI analysis) ──────────
+// ── Render ─────────────────────────────────────────────────────────────
+function renderResult(d) {
+    const stock = d.stock || {};
+    const bt = d.backtest || {};
+    const ind = d.indicators || {};
+    const signals = d.signals || [];
+    const params = d.parameters || {};
+    const curPrice = parseFloat(stock.price) || 0;
+    const chgPct = parseFloat(stock.changePct) || 0;
+    const up = chgPct >= 0;
+
+    window._bt = bt;
+    window._ind = ind;
+    window._signals = signals;
+
+    document.getElementById('stockName').textContent = stock.name || stock.code || '--';
+    document.getElementById('stockCode').textContent = (stock.code || '--') + ' · MA' + (params.fast_period || 10) + '/' + (params.slow_period || 20) + ' 交叉策略';
+    
+    const pe = document.getElementById('stockPrice');
+    pe.textContent = curPrice > 0 ? curPrice.toFixed(2) : '--';
+    pe.className = 'price-main ' + (up ? 'up' : 'down');
+    const ce = document.getElementById('stockChange');
+    ce.textContent = curPrice > 0 && chgPct !== 0 ? (up ? '+' : '') + (stock.change || 0).toFixed(2) + ' (' + (up ? '+' : '') + chgPct.toFixed(2) + '%)' : '--';
+    ce.className = 'change-main ' + (up ? 'up' : 'down');
+
+    document.getElementById('stockHigh').textContent = ind.current_high ? ind.current_high.toFixed(2) : '--';
+    document.getElementById('stockLow').textContent = ind.current_low ? ind.current_low.toFixed(2) : '--';
+    document.getElementById('stockVol').textContent = ind.current_volume ? (ind.current_volume / 10000).toFixed(0) + '万' : '--';
+    document.getElementById('stockDate').textContent = d.data_info?.date_range?.split('~')[1]?.trim() || '--';
+    
+    const tags = [];
+    if (ind.ma_bullish) tags.push('<span class="tag up">📈 多头排列</span>');
+    if (ind.ma_bearish) tags.push('<span class="tag down">📉 空头排列</span>');
+    if (ind.rsi_14 > 70) tags.push('<span class="tag down">⚠️ RSI超买</span>');
+    if (ind.rsi_14 < 30) tags.push('<span class="tag up">💡 RSI超卖</span>');
+    if (!tags.length) tags.push('<span class="tag neutral">➡️ 震荡整理</span>');
+    document.getElementById('stockTags').innerHTML = tags.join('');
+
+    // Data info
+    document.getElementById('dataInfo').textContent = '数据区间: ' + (d.data_info?.date_range || '--') + ' · ' + (d.data_info?.data_points || 0) + ' 个交易日 · 跨度 ' + (d.data_info?.actual_years || '--') + ' 年 · 回测 MA' + (params.fast_period || 10) + '/' + (params.slow_period || 20);
+
+    // Score
+    let score = 50;
+    if (ind.ma_bullish) score += 15;
+    if (ind.ma_bearish) score -= 20;
+    if ((ind.rsi_14 || 50) > 70) score -= 15;
+    if ((ind.rsi_14 || 50) < 30) score += 15;
+    if ((ind.macd || 0) > (ind.macd_signal || 0) && (ind.macd || 0) > 0) score += 10;
+    if ((ind.macd || 0) < (ind.macd_signal || 0) && (ind.macd || 0) < 0) score -= 10;
+    if ((ind.adx || 0) > 25) score += ((ind.adx_plus || 0) > (ind.adx_minus || 0) ? 10 : -10);
+    score = Math.max(0, Math.min(100, score));
+    const sn = document.getElementById('scoreNum');
+    sn.textContent = score;
+    sn.className = 'score-number ' + (score > 60 ? 'up' : score < 40 ? 'down' : 'neutral');
+    document.getElementById('scoreLabel').textContent = score > 60 ? '偏多信号' : score < 40 ? '偏空信号' : '中性信号';
+    document.getElementById('scoreMarker').style.left = score + '%';
+
+    // Signals
+    const counts = { gold: 0, dead: 0, risk: 0, opportunity: 0, neutral: 0 };
+    signals.forEach(s => { if (counts[s.signal] !== undefined) counts[s.signal]++; });
+    const badgeHTML = [];
+    if (counts.gold) badgeHTML.push('<span class="sig-badge gold">📈 多头 ' + counts.gold + '</span>');
+    if (counts.opportunity) badgeHTML.push('<span class="sig-badge opportunity">💡 买入 ' + counts.opportunity + '</span>');
+    if (counts.risk) badgeHTML.push('<span class="sig-badge risk">⚠️ 警示 ' + counts.risk + '</span>');
+    if (counts.dead) badgeHTML.push('<span class="sig-badge dead">📉 空头 ' + counts.dead + '</span>');
+    if (counts.neutral) badgeHTML.push('<span class="sig-badge neutral">➡️ 中性 ' + counts.neutral + '</span>');
+    document.getElementById('signalBadges').innerHTML = badgeHTML.join('');
+
+    const dotClass = { gold: 'gold', dead: 'dead', risk: 'risk', opportunity: 'opportunity', neutral: 'neutral' };
+    const icons = { gold: '📈', dead: '📉', risk: '⚠️', opportunity: '💡', neutral: '➡️' };
+    document.getElementById('signalsList').innerHTML = signals.slice(0, 8).map(s =>
+        '<div class="signal-row ' + (dotClass[s.signal] || 'neutral') + '">' +
+        '<div class="sig-dot ' + (dotClass[s.signal] || 'neutral') + '"></div>' +
+        '<div class="sig-info">' +
+        '<div class="sig-type">' + (icons[s.signal] || '➡️') + ' ' + s.type + '</div>' +
+        '<div class="sig-desc">' + s.desc + '</div>' +
+        '<div class="sig-adv">💡 ' + s.recommend + '</div></div></div>'
+    ).join('');
+
+    // Indicators
+    const cats = {
+        trend:     { title: '📉 趋势类', keys: ['sma_5','sma_10','sma_20','sma_60','ema_12','ema_26','macd','macd_signal','macd_hist','adx'] },
+        momentum:  { title: '⚡ 动量类', keys: ['rsi_14','kdj_k','kdj_d','cci','wr','roc','psy'] },
+        volatility:{ title: '📊 波动类', keys: ['bb_upper','bb_middle','bb_lower','atr'] },
+        volume:    { title: '🔊 能量类', keys: ['obv'] },
+    };
+    
+    document.getElementById('indicatorsWrap').innerHTML = Object.entries(cats).map(([catId, cat]) => {
+        const cells = cat.keys.map(k => {
+            const meta = INDICATOR_META[k];
+            if (!meta) return '';
+            const v = ind[k];
+            if (v == null || isNaN(v)) return '';
+            const color = valColor(k, v, curPrice);
+            const decimal = ['macd','macd_signal','macd_hist','roc'].includes(k) ? 3 : 2;
+            const valStr = Number(v).toFixed(decimal);
+            return '<div class="ind-cell" data-key="' + k + '" data-val="' + v + '" data-cur="' + curPrice + '">' +
+                '<div class="ind-name">' + meta.name + '</div>' +
+                '<div class="ind-val" style="color:' + color + '">' + valStr + '</div></div>';
+        }).join('');
+        return '<div class="ind-group"><div class="ind-group-title">' + cat.title + '</div><div class="ind-row">' + cells + '</div></div>';
+    }).join('');
+
+    // Backtest params
+    const bp = [
+        { k: 'initial_capital', l: '初始资金', u: '元', fmt: v => v ? Number(v).toLocaleString() + ' 元' : '--', c: 'neutral' },
+        { k: 'final_capital', l: '最终资金', u: '元', fmt: v => v ? Number(v).toLocaleString() + ' 元' : '--', c: bt.final_capital >= bt.initial_capital ? 'up' : 'down' },
+        { k: 'commission_rate', l: '佣金+滑点', u: '', fmt: v => v != null ? (v * 100).toFixed(2) + '%' : '--' },
+        { k: 'avg_holding_period', l: '平均持仓', u: '天', fmt: v => fmt(v, 1) },
+    ];
+    document.getElementById('backtestParams').innerHTML = bp.map(m => {
+        const v = m.fmt(bt[m.k]);
+        return '<div class="metric-card"><div class="metric-label">' + m.l + '</div><div class="metric-val ' + (m.c || cls(m.k, bt[m.k])) + '">' + v + (m.u && v !== '--' ? m.u : '') + '</div></div>';
+    }).join('');
+
+    // Return
+    const rm = [
+        { k: 'annualized_return', l: '年化收益', u: '%' },
+        { k: 'total_return', l: '总收益', u: '%' },
+        { k: 'win_rate', l: '胜率', u: '%' },
+        { k: 'profit_loss_ratio', l: '盈亏比', u: '倍' },
+    ];
+    document.getElementById('returnMetrics').innerHTML = rm.map(m =>
+        '<div class="metric-card"><div class="metric-label">' + m.l + '</div><div class="metric-val ' + cls(m.k, bt[m.k]) + '">' + fmt(bt[m.k]) + m.u + '</div></div>'
+    ).join('');
+
+    // Risk
+    const rm2 = [
+        { k: 'max_drawdown', l: '最大回撤', u: '%' },
+        { k: 'sharpe_ratio', l: '夏普比率', u: '' },
+        { k: 'sortino_ratio', l: '索提诺', u: '' },
+        { k: 'calmar_ratio', l: '卡尔玛', u: '' },
+    ];
+    document.getElementById('riskMetrics').innerHTML = rm2.map(m =>
+        '<div class="metric-card"><div class="metric-label">' + m.l + '</div><div class="metric-val ' + cls(m.k, bt[m.k]) + '">' + fmt(bt[m.k]) + m.u + '</div></div>'
+    ).join('');
+
+    // Final Rec
+    let rec = '';
+    if (score >= 70) rec = '<span class="bull">综合评分偏多</span>，MA 多头排列，RSI 未超买，趋势明确。';
+    else if (score <= 30) rec = '<span class="bear">综合评分偏空</span>，MA 空头排列，注意风险。';
+    else if (counts.risk > counts.gold) rec = '<span class="warn">信号分歧较大</span>，风险警示多，建议轻仓观望。';
+    else if (counts.gold > 0) rec = '<span class="bull">信号偏多</span>，存在买入机会，但需注意短期波动。';
+    else rec = '各指标方向不一，趋势不明确，建议<span class="warn">观望等待信号明确</span>。';
+    document.getElementById('finalText').innerHTML = rec;
+}
+
+// ── Copy ─────────────────────────────────────────────────────────────────
 function copyIndicators() {
     const stock = document.getElementById('stockName').textContent || '';
     const stockCode = document.getElementById('stockCode')?.textContent || '';
@@ -397,8 +588,6 @@ function copyIndicators() {
     const change = document.getElementById('stockChange').textContent || '';
     const bt = window._bt || {};
     const ind = window._ind || {};
-
-    const fmt = (v, d = 2) => (v == null || isNaN(v)) ? '--' : Number(v).toFixed(d);
 
     const lines = [
         `请分析以下指标数据，给出详细的投资建议：`,
@@ -428,31 +617,25 @@ function copyIndicators() {
         `平均持仓天数：${bt.avg_holding_period != null ? bt.avg_holding_period + ' 天' : '--'}`,
         ``,
         `【趋势类指标】`,
-        `均线 MA5：${fmt(ind.sma_5)}　MA10：${fmt(ind.sma_10)}　MA20：${fmt(ind.sma_20)}　MA60：${fmt(ind.sma_60)}　MA120：${fmt(ind.sma_120)}　MA250：${fmt(ind.sma_250)}`,
-        `指数均线 EMA12：${fmt(ind.ema_12)}　EMA26：${fmt(ind.ema_26)}`,
+        `均线 MA5：${fmt(ind.sma_5)}　MA10：${fmt(ind.sma_10)}　MA20：${fmt(ind.sma_20)}　MA60：${fmt(ind.sma_60)}`,
+        `EMA12：${fmt(ind.ema_12)}　EMA26：${fmt(ind.ema_26)}`,
         `MACD线：${fmt(ind.macd, 3)}　Signal线：${fmt(ind.macd_signal, 3)}　柱状图：${fmt(ind.macd_hist, 3)}`,
-        `ADX趋势指数：${fmt(ind.adx)}　+DI：${fmt(ind.adx_plus)}　-DI：${fmt(ind.adx_minus)}`,
+        `ADX：${fmt(ind.adx)}　+DI：${fmt(ind.adx_plus)}　-DI：${fmt(ind.adx_minus)}`,
         ``,
         `【动量类指标】`,
-        `RSI相对强弱：RSI6=${fmt(ind.rsi_6)}　RSI14=${fmt(ind.rsi_14)}　RSI26=${fmt(ind.rsi_26)}`,
-        `KDJ随机指标：K=${fmt(ind.kdj_k)}　D=${fmt(ind.kdj_d)}　J=${fmt(ind.kdj_j)}`,
-        `CCI顺势指标：${fmt(ind.cci)}　威廉指标(WR)：${fmt(ind.wr)}`,
-        `ROC变动率：${fmt(ind.roc, 3)}　PSY心理线：${fmt(ind.psy)}`,
+        `RSI6：${fmt(ind.rsi_6)}　RSI14：${fmt(ind.rsi_14)}　RSI26：${fmt(ind.rsi_26)}`,
+        `KDJ-K：${fmt(ind.kdj_k)}　KDJ-D：${fmt(ind.kdj_d)}　KDJ-J：${fmt(ind.kdj_j)}`,
+        `CCI：${fmt(ind.cci)}　威廉指标(WR)：${fmt(ind.wr)}`,
+        `ROC：${fmt(ind.roc, 3)}　PSY：${fmt(ind.psy)}`,
         ``,
         `【波动类指标】`,
-        `布林带：上轨=${fmt(ind.bb_upper)}　中轨=${fmt(ind.bb_middle)}　下轨=${fmt(ind.bb_lower)}`,
-        `ATR真实波幅：${fmt(ind.atr)}`,
+        `布林上轨：${fmt(ind.bb_upper)}　中轨：${fmt(ind.bb_middle)}　下轨：${fmt(ind.bb_lower)}`,
+        `ATR：${fmt(ind.atr)}`,
         ``,
         `【能量类指标】`,
-        `OBV能量潮：${fmt(ind.obv, 0)}`,
+        `OBV：${fmt(ind.obv, 0)}`,
         ``,
         `─────────────────────────────────`,
-        `请基于以上原始数据，独立分析判断并给出具体建议：`,
-        ``,
-        `1. 当前走势处于什么趋势（多头/空头/震荡）？`,
-        `2. 哪些指标处于超买或超卖状态？`,
-        `3. 是否有背离或关键信号？`,
-        ``,
         `请给出以下具体数值建议：`,
         `• 买入建议价位（推荐进场价格）及理由`,
         `• 止损价位（亏损超过此价位建议离场）及理由`,
@@ -463,198 +646,11 @@ function copyIndicators() {
         `📌 数据来源：VeighNa 量化分析系统 · CTTAI`,
     ];
 
-    const text = lines.filter(l => l !== undefined).join('\n');
+    const text = lines.join('\n');
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copyBtn');
         if (btn) { btn.textContent = '✅ 已复制'; setTimeout(() => btn.textContent = '📋 复制完整数据', 2500); }
-    }).catch(() => {
-        alert('复制失败，请手动复制');
-    });
-}
-
-function renderResult(d) {
-    const stock = d.stock || {};
-    const bt = d.backtest || {};
-    const ind = d.indicators || {};
-    const signals = d.signals || [];
-    const params = d.parameters || {};
-    
-    // Store for copy function
-    window._bt = bt;
-    window._ind = ind;
-    window._signals = signals;
-
-    // ── Stock info ──
-    const price = parseFloat(stock.price) || 0;
-    const chg = parseFloat(stock.change) || 0;
-    const chgPct = parseFloat(stock.changePct) || 0;
-    const up = chgPct >= 0;
-
-    document.getElementById('stockName').textContent = stock.name || stock.code || '--';
-    document.getElementById('stockCode').textContent = (stock.code || '--') + ' · MA' + (params.fast_period || 10) + '/' + (params.slow_period || 20) + ' 交叉策略';
-    
-    const pe = document.getElementById('stockPrice');
-    pe.textContent = price > 0 ? price.toFixed(2) : '--';
-    pe.className = 'price-main ' + (up ? 'up' : 'down');
-    const ce = document.getElementById('stockChange');
-    ce.textContent = price > 0 && chgPct !== 0 ? (up ? '+' : '') + chg.toFixed(2) + ' (' + (up ? '+' : '') + chgPct.toFixed(2) + '%)' : '--';
-    ce.className = 'change-main ' + (up ? 'up' : 'down');
-
-    document.getElementById('stockHigh').textContent = ind.current_high ? ind.current_high.toFixed(2) : '--';
-    document.getElementById('stockLow').textContent = ind.current_low ? ind.current_low.toFixed(2) : '--';
-    document.getElementById('stockVol').textContent = ind.current_volume ? (ind.current_volume / 10000).toFixed(0) + '万' : '--';
-    document.getElementById('stockDate').textContent = d.data_info?.date_range?.split('~')[1]?.trim() || '--';
-
-    // Tags
-    const tags = [];
-    const bullish = ind.ma_bullish;
-    const bearish = ind.ma_bearish;
-    if (bullish) tags.push('<span class="tag up">📈 多头排列</span>');
-    if (bearish) tags.push('<span class="tag down">📉 空头排列</span>');
-    if (ind.rsi_14 > 70) tags.push('<span class="tag down">⚠️ RSI超买</span>');
-    if (ind.rsi_14 < 30) tags.push('<span class="tag up">💡 RSI超卖</span>');
-    if (tags.length === 0) tags.push('<span class="tag neutral">➡️ 震荡整理</span>');
-    document.getElementById('stockTags').innerHTML = tags.join('');
-
-    // ── Score ──
-    let score = 50; // 0-100
-    if (bullish) score += 15;
-    if (bearish) score -= 20;
-    const rsi = ind.rsi_14 || 50;
-    if (rsi > 70) score -= 15;
-    if (rsi < 30) score += 15;
-    const macd = ind.macd || 0;
-    const macdSig = ind.macd_signal || 0;
-    if (macd > macdSig && macd > 0) score += 10;
-    if (macd < macdSig && macd < 0) score -= 10;
-    const adx = ind.adx || 0;
-    if (adx > 25) score += (ind.adx_plus > ind.adx_minus ? 10 : -10);
-    score = Math.max(0, Math.min(100, score));
-
-    const sn = document.getElementById('scoreNum');
-    sn.textContent = score;
-    sn.className = 'score-number ' + (score > 60 ? 'up' : score < 40 ? 'down' : 'neutral');
-    document.getElementById('scoreLabel').textContent = score > 60 ? '偏多信号' : score < 40 ? '偏空信号' : '中性信号';
-    document.getElementById('scoreMarker').style.left = score + '%';
-
-    // ── Signals ──
-    const counts = { gold: 0, dead: 0, risk: 0, opportunity: 0, neutral: 0 };
-    signals.forEach(s => { if (counts[s.signal] !== undefined) counts[s.signal]++; });
-    const badgeHTML = [];
-    if (counts.gold) badgeHTML.push(`<span class="sig-badge gold">📈 多头 ${counts.gold}</span>`);
-    if (counts.opportunity) badgeHTML.push(`<span class="sig-badge opportunity">💡 买入 ${counts.opportunity}</span>`);
-    if (counts.risk) badgeHTML.push(`<span class="sig-badge risk">⚠️ 警示 ${counts.risk}</span>`);
-    if (counts.dead) badgeHTML.push(`<span class="sig-badge dead">📉 空头 ${counts.dead}</span>`);
-    if (counts.neutral) badgeHTML.push(`<span class="sig-badge neutral">➡️ 中性 ${counts.neutral}</span>`);
-    document.getElementById('signalBadges').innerHTML = badgeHTML.join('');
-
-    const dotColor = { gold: 'gold', dead: 'dead', risk: 'risk', opportunity: 'opportunity', neutral: 'neutral' };
-    const icons = { gold: '📈', dead: '📉', risk: '⚠️', opportunity: '💡', neutral: '➡️' };
-    document.getElementById('signalsList').innerHTML = signals.slice(0, 8).map(s => 
-        `<div class="signal-item"><div class="sig-dot ${dotColor[s.signal] || 'neutral'}"></div><div class="sig-body">
-        <div class="sig-type">${icons[s.signal] || '➡️'} ${s.type}</div>
-        <div class="sig-desc">${s.desc}</div>
-        <div class="sig-adv">💡 ${s.recommend}</div></div></div>`
-    ).join('');
-
-    // ── Indicators ──
-    const cats = {
-        trend: { title: '📉 趋势类', keys: ['sma_5','sma_10','sma_20','sma_60','ema_12','ema_26','macd','macd_signal','macd_hist','adx'] },
-        momentum: { title: '⚡ 动量类', keys: ['rsi_14','kdj_k','kdj_d','cci','wr','roc','psy'] },
-        volatility: { title: '📊 波动类', keys: ['bb_upper','bb_middle','bb_lower','atr'] },
-        volume: { title: '🔊 能量类', keys: ['obv'] },
-    };
-    const valColor = (k, v) => {
-        if (v == null || isNaN(v)) return 'var(--text2)';
-        if (['sma_5','sma_10','sma_20','sma_60','ema_12','ema_26','macd','macd_signal'].includes(k)) {
-            const cur = ind.current_price || 0;
-            return cur > v ? 'var(--green)' : 'var(--red)';
-        }
-        if (k === 'rsi_14') { const n = Number(v); return n > 70 ? 'var(--red)' : n < 30 ? 'var(--green)' : 'var(--text)'; }
-        if (k === 'kdj_k' || k === 'kdj_d') { const n = Number(v); return n > 80 ? 'var(--red)' : n < 20 ? 'var(--green)' : 'var(--text)'; }
-        if (k === 'macd_hist') return v > 0 ? 'var(--green)' : 'var(--red)';
-        if (k === 'wr') { const n = Number(v); return n < -80 ? 'var(--green)' : n > -20 ? 'var(--red)' : 'var(--text)'; }
-        if (k === 'cci') { const n = Number(v); return n > 100 ? 'var(--red)' : n < -100 ? 'var(--green)' : 'var(--text)'; }
-        if (k === 'psy') { const n = Number(v); return n > 75 ? 'var(--red)' : n < 25 ? 'var(--green)' : 'var(--text)'; }
-        return 'var(--text)';
-    };
-    
-    document.getElementById('indicatorsWrap').innerHTML = Object.entries(cats).map(([catId, cat]) => {
-        const cells = cat.keys.map(k => {
-            const meta = INDICATOR_META[k];
-            if (!meta) return '';
-            const v = ind[k];
-            if (v == null || isNaN(v)) return '';
-            const decimal = ['macd','macd_signal','macd_hist','roc'].includes(k) ? 3 : 2;
-            return `<div class="ind-cell">
-                <div class="ind-name">${meta.name}</div>
-                <div class="ind-val" style="color:${valColor(k, v)}">${fmt(v, decimal)}</div>
-                <div class="ind-tip">
-                    <div class="ind-tip-title">${meta.title}</div>
-                    <div class="ind-tip-f">${meta.formula}</div>
-                    <div style="color:var(--text2);margin-bottom:0.3rem">${meta.desc}</div>
-                    <div class="ind-tip-adv">💡 ${meta.advice}</div>
-                </div>
-            </div>`;
-        }).join('');
-        return `<div class="ind-group"><div class="ind-title">${cat.title}</div><div class="ind-row">${cells}</div></div>`;
-    }).join('');
-
-    // ── Chart ──
-    // Build chart data (we need raw df, but we only have indicators)
-    // Draw a simplified chart using just price from indicators
-    // Actually we need historical data - skip for now, add placeholder
-
-    // ── Backtest params ──
-    const bp = [
-        { k: 'initial_capital', l: '初始资金', u: '元', fmt: v => v ? Number(v).toLocaleString('en-US', {minimumFractionDigits:0}) : '--' },
-        { k: 'final_capital', l: '最终资金', u: '元', fmt: v => v ? Number(v).toLocaleString('en-US', {minimumFractionDigits:0}) : '--', c: bt.final_capital >= bt.initial_capital ? 'up' : 'down' },
-        { k: 'commission_rate', l: '佣金+滑点', u: '', fmt: v => v != null ? (v * 100).toFixed(2) + '%' : '--' },
-        { k: 'avg_holding_period', l: '平均持仓', u: '天', fmt: v => fmt(v, 1) },
-    ];
-    document.getElementById('backtestParams').innerHTML = bp.map(m => {
-        const v = m.fmt ? m.fmt(bt[m.k]) : fmt(bt[m.k]);
-        const c = m.c || cls(m.k, bt[m.k]);
-        return `<div class="metric-card"><div class="metric-label">${m.l}</div><div class="metric-val ${c}">${v}${m.u}</div></div>`;
-    }).join('');
-
-    // Return metrics
-    const rm = [
-        { k: 'annualized_return', l: '年化收益', u: '%' },
-        { k: 'total_return', l: '总收益', u: '%' },
-        { k: 'win_rate', l: '胜率', u: '%' },
-        { k: 'profit_loss_ratio', l: '盈亏比', u: '倍' },
-    ];
-    document.getElementById('returnMetrics').innerHTML = rm.map(m => {
-        const c = cls(m.k, bt[m.k]);
-        return `<div class="metric-card"><div class="metric-label">${m.l}</div><div class="metric-val ${c}">${fmt(bt[m.k])}${m.u}</div></div>`;
-    }).join('');
-
-    // Risk metrics
-    const rm2 = [
-        { k: 'max_drawdown', l: '最大回撤', u: '%' },
-        { k: 'sharpe_ratio', l: '夏普比率', u: '' },
-        { k: 'sortino_ratio', l: '索提诺', u: '' },
-        { k: 'calmar_ratio', l: '卡尔玛', u: '' },
-    ];
-    document.getElementById('riskMetrics').innerHTML = rm2.map(m => {
-        const c = cls(m.k, bt[m.k]);
-        return `<div class="metric-card"><div class="metric-label">${m.l}</div><div class="metric-val ${c}">${fmt(bt[m.k])}${m.u}</div></div>`;
-    }).join('');
-
-    // ── Final Recommendation ──
-    let rec = '';
-    if (score >= 70) rec = `<span class="bull">综合评分偏多</span>，MA 多头排列，RSI 未超买，趋势明确。`;
-    else if (score <= 30) rec = `<span class="bear">综合评分偏空</span>，MA 空头排列，注意风险。`;
-    else if (counts.risk > counts.gold) rec = `<span class="warn">信号分歧较大</span>，风险警示多，但也有买入机会，建议轻仓观望。`;
-    else if (counts.gold > 0) rec = `<span class="bull">信号偏多</span>，存在买入机会，但需注意短期波动。`;
-    else rec = `各指标方向不一，趋势不明确，建议<span class="warn">观望等待信号明确</span>。`;
-    document.getElementById('finalText').innerHTML = rec;
-
-    // ── Data info ──
-    const actualFast = d.parameters?.fast_period || 10;
-    const actualSlow = d.parameters?.slow_period || 20;
-    document.getElementById('dataInfo').textContent = '数据区间: ' + (d.data_info?.date_range || '--') + ' · ' + (d.data_info?.data_points || 0) + ' 个交易日 · 跨度 ' + (d.data_info?.actual_years || '--') + ' 年 · 回测 MA' + actualFast + '/' + actualSlow;
+    }).catch(() => {});
 }
 </script>
 </body>
