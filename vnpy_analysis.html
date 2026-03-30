@@ -135,8 +135,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
 .ind-cell:hover { border-color: var(--accent); background: rgba(59,130,246,0.06); z-index: 5; }
 .ind-name { font-size: 0.58rem; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
 .ind-val { font-size: 0.85rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-top: 0.1rem; }
-.ind-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 0.6rem 0.75rem; width: 210px; font-size: 0.72rem; color: var(--text2); line-height: 1.6; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s; pointer-events: none; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
-.ind-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--bg3); }
+.ind-tip { position: absolute; top: 50%; left: calc(100% + 10px); transform: translateY(-50%); background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 0.6rem 0.75rem; width: 210px; font-size: 0.72rem; color: var(--text2); line-height: 1.6; z-index: 100; opacity: 0; visibility: hidden; transition: opacity 0.15s, visibility 0.15s; pointer-events: none; box-shadow: 0 8px 30px rgba(0,0,0,0.6); white-space: normal; }
+.ind-tip::after { content: ''; position: absolute; right: 100%; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right-color: var(--bg3); }
 .ind-cell:hover .ind-tip { opacity: 1; visibility: visible; }
 .ind-tip-title { font-weight: 700; color: var(--text); margin-bottom: 0.2rem; font-size: 0.75rem; }
 .ind-tip-f { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--cyan); margin-bottom: 0.3rem; }
@@ -386,16 +386,14 @@ function showResult() {
     document.getElementById('resultArea').classList.remove('hidden');
 }
 
-// ── Copy ALL indicators to clipboard (for AI analysis) ─────────────────
+// ── Copy ALL indicators to clipboard (raw data for AI analysis) ──────────
 function copyIndicators() {
     const stock = document.getElementById('stockName').textContent || '';
     const stockCode = document.getElementById('stockCode')?.textContent || '';
     const price = document.getElementById('stockPrice').textContent || '';
     const change = document.getElementById('stockChange').textContent || '';
-    const score = document.getElementById('scoreNum')?.textContent || '';
     const bt = window._bt || {};
     const ind = window._ind || {};
-    const signals = window._signals || [];
 
     const fmt = (v, d = 2) => (v == null || isNaN(v)) ? '--' : Number(v).toFixed(d);
 
@@ -405,9 +403,10 @@ function copyIndicators() {
         `【股票信息】`,
         `${stock}（${stockCode}）`,
         `当前价格：${price}　${change}`,
-        `综合评分：${score}/100（${document.getElementById('scoreLabel')?.textContent || ''}）`,
+        `最高价：${ind.current_high != null ? ind.current_high.toFixed(2) : '--'}　最低价：${ind.current_low != null ? ind.current_low.toFixed(2) : '--'}`,
+        `成交量：${ind.current_volume != null ? (ind.current_volume / 10000).toFixed(0) + ' 万' : '--'}`,
         ``,
-        `【回测参数】`,
+        `【回测结果（MA均线交叉策略）】`,
         `初始资金：${bt.initial_capital ? Number(bt.initial_capital).toLocaleString() + ' 元' : '--'}`,
         `最终资金：${bt.final_capital ? Number(bt.final_capital).toLocaleString() + ' 元' : '--'}`,
         `年化收益率：${bt.annualized_return != null ? bt.annualized_return + '%' : '--'}`,
@@ -423,41 +422,36 @@ function copyIndicators() {
         `交易次数：${bt.total_trades != null ? bt.total_trades + ' 次' : '--'}`,
         `盈利交易：${bt.winning_trades != null ? bt.winning_trades + ' 次' : '--'}`,
         `亏损交易：${bt.losing_trades != null ? bt.losing_trades + ' 次' : '--'}`,
-        `平均持仓：${bt.avg_holding_period != null ? bt.avg_holding_period + ' 天' : '--'}`,
-        `平均盈利：${bt.avg_win != null ? bt.avg_win + '%' : '--'}`,
-        `平均亏损：${bt.avg_loss != null ? bt.avg_loss + '%' : '--'}`,
+        `平均持仓天数：${bt.avg_holding_period != null ? bt.avg_holding_period + ' 天' : '--'}`,
         ``,
         `【趋势类指标】`,
-        `MA5：${fmt(ind.sma_5)}　MA10：${fmt(ind.sma_10)}　MA20：${fmt(ind.sma_20)}　MA60：${fmt(ind.sma_60)}`,
-        `EMA12：${fmt(ind.ema_12)}　EMA26：${fmt(ind.ema_26)}`,
-        `ADX：${fmt(ind.adx)}　+DI：${fmt(ind.adx_plus)}　-DI：${fmt(ind.adx_minus)}`,
+        `均线 MA5：${fmt(ind.sma_5)}　MA10：${fmt(ind.sma_10)}　MA20：${fmt(ind.sma_20)}　MA60：${fmt(ind.sma_60)}　MA120：${fmt(ind.sma_120)}　MA250：${fmt(ind.sma_250)}`,
+        `指数均线 EMA12：${fmt(ind.ema_12)}　EMA26：${fmt(ind.ema_26)}`,
+        `MACD线：${fmt(ind.macd, 3)}　Signal线：${fmt(ind.macd_signal, 3)}　柱状图：${fmt(ind.macd_hist, 3)}`,
+        `ADX趋势指数：${fmt(ind.adx)}　+DI：${fmt(ind.adx_plus)}　-DI：${fmt(ind.adx_minus)}`,
         ``,
         `【动量类指标】`,
-        `MACD：${fmt(ind.macd, 3)}　Signal：${fmt(ind.macd_signal, 3)}　Histogram：${fmt(ind.macd_hist, 3)}`,
-        `RSI6：${fmt(ind.rsi_6)}　RSI14：${fmt(ind.rsi_14)}　RSI26：${fmt(ind.rsi_26)}`,
-        `KDJ-K：${fmt(ind.kdj_k)}　KDJ-D：${fmt(ind.kdj_d)}　KDJ-J：${fmt(ind.kdj_j)}`,
-        `CCI：${fmt(ind.cci)}　威廉指标(WR)：${fmt(ind.wr)}`,
-        `ROC：${fmt(ind.roc, 3)}　PSY：${fmt(ind.psy)}`,
+        `RSI相对强弱：RSI6=${fmt(ind.rsi_6)}　RSI14=${fmt(ind.rsi_14)}　RSI26=${fmt(ind.rsi_26)}`,
+        `KDJ随机指标：K=${fmt(ind.kdj_k)}　D=${fmt(ind.kdj_d)}　J=${fmt(ind.kdj_j)}`,
+        `CCI顺势指标：${fmt(ind.cci)}　威廉指标(WR)：${fmt(ind.wr)}`,
+        `ROC变动率：${fmt(ind.roc, 3)}　PSY心理线：${fmt(ind.psy)}`,
         ``,
         `【波动类指标】`,
-        `布林上轨：${fmt(ind.bb_upper)}　布林中轨：${fmt(ind.bb_middle)}　布林下轨：${fmt(ind.bb_lower)}`,
-        `ATR：${fmt(ind.atr)}`,
+        `布林带：上轨=${fmt(ind.bb_upper)}　中轨=${fmt(ind.bb_middle)}　下轨=${fmt(ind.bb_lower)}`,
+        `ATR真实波幅：${fmt(ind.atr)}`,
         ``,
         `【能量类指标】`,
-        `OBV：${fmt(ind.obv, 0)}`,
-        ``,
-        `【当前价格信息】`,
-        `最高价：${ind.current_high != null ? ind.current_high.toFixed(2) : '--'}　最低价：${ind.current_low != null ? ind.current_low.toFixed(2) : '--'}`,
-        `成交量：${ind.current_volume != null ? (ind.current_volume / 10000).toFixed(0) + ' 万' : '--'}`,
-        ``,
-        `【交易信号汇总】`,
-        ...signals.slice(0, 10).map(s => `• ${s.type}：${s.desc} → ${s.recommend}`),
+        `OBV能量潮：${fmt(ind.obv, 0)}`,
         ``,
         `─────────────────────────────────`,
-        `请基于以上数据，分析当前走势，给出具体的投资建议（买入/卖出/观望）及风险提示。`,
+        `请基于以上原始数据，独立分析判断：`,
+        `1. 当前走势处于什么趋势（多头/空头/震荡）？`,
+        `2. 哪些指标处于超买或超卖状态？`,
+        `3. 是否有背离或关键信号？`,
+        `4. 综合给出投资建议（买入/卖出/观望）及风险提示`,
         ``,
+        `⚠️ 仅供参考，不构成投资建议，投资有风险，入市需谨慎`,
         `📌 数据来源：VeighNa 量化分析系统 · CTTAI`,
-        `⚠️ 仅供参考，不构成任何投资建议，投资有风险，入市需谨慎`,
     ];
 
     const text = lines.filter(l => l !== undefined).join('\n');
