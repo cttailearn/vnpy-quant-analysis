@@ -21,6 +21,24 @@ warnings.filterwarnings('ignore')
 app = Flask(__name__)
 app.json.ensure_ascii = False
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    import traceback
+    import socket
+    tb = traceback.format_exc()
+    err_type = e.__class__.__name__
+    
+    # 根据异常类型给出友好提示
+    if isinstance(e, (ConnectionError, socket.timeout, TimeoutError)):
+        friendly = '数据源连接失败，请稍后重试（网络或服务器繁忙）'
+    elif 'Connection' in err_type or 'Timeout' in err_type or 'HTTP' in err_type:
+        friendly = '网络连接异常，请检查网络后重试'
+    else:
+        friendly = f'分析出错，请稍后重试'
+    
+    print(f"[ERROR] {err_type}: {e}\n{tb}", file=sys.stderr)
+    return json_response({'success': False, 'error': friendly})
+
 # ============ 配置 ============
 COMMISSION_RATE = 0.0015    # 双向佣金 0.15%（0.1%印花税只在卖出收，0.05%双向佣金）
 SLIPPAGE_RATE = 0.001       # 滑点 0.1%（乐观估计）
@@ -90,26 +108,63 @@ def get_stock_data_cached(code: str, period: int = 250) -> Optional[pd.DataFrame
     return df.copy() if df is not None else None
 
 def _fetch_stock_data_impl(code: str, period: int) -> Optional[pd.DataFrame]:
-    """实际获取股票数据"""
+    """实际获取股票数据（akshare 优先，失败则用 baostock 备用）"""
+    import time
+    import baostock as bs
+    symbol = code.replace('SH', '').replace('SZ', '')
+    
+    # 方法1：akshare（东方财富）
+    for attempt in range(2):
+        try:
+            df = ak.stock_zh_a_hist(
+                symbol=symbol,
+                period='daily',
+                start_date=(datetime.now() - timedelta(days=period * 2)).strftime('%Y%m%d'),
+                end_date=datetime.now().strftime('%Y%m%d'),
+                adjust='qfq'
+            )
+            if df is not None and not df.empty:
+                df = df[['日期', '开盘', '收盘', '最高', '最低', '成交量', '成交额']].copy()
+                df.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount']
+                df['date'] = pd.to_datetime(df['date'])
+                df = df.sort_values('date').reset_index(drop=True)
+                return df
+        except Exception as e:
+            print(f"[WARN] akshare attempt {attempt+1}/2 failed for {code}: {e}", file=sys.stderr)
+            if attempt < 1:
+                time.sleep(2)
+    
+    # 方法2：baostock（备用数据源）
     try:
-        symbol = code.replace('SH', '').replace('SZ', '')
-        df = ak.stock_zh_a_hist(
-            symbol=symbol,
-            period='daily',
-            start_date=(datetime.now() - timedelta(days=period * 2)).strftime('%Y%m%d'),
-            end_date=datetime.now().strftime('%Y%m%d'),
-            adjust='qfq'
+        prefix = 'sh' if symbol.startswith('6') else 'sz'
+        bs.login()
+        rs = bs.query_history_k_data_plus(
+            f'{prefix}.{symbol}',
+            'date,open,high,low,close,volume,amount',
+            start_date=(datetime.now() - timedelta(days=period * 2)).strftime('%Y-%m-%d'),
+            end_date=datetime.now().strftime('%Y-%m-%d'),
+            frequency='d', adjustflag='3'
         )
-        if df is None or df.empty:
-            return None
-        df = df[['日期', '开盘', '收盘', '最高', '最低', '成交量', '成交额']].copy()
-        df.columns = ['date', 'open', 'close', 'high', 'low', 'volume', 'amount']
-        df['date'] = pd.to_datetime(df['date'])
-        df = df.sort_values('date').reset_index(drop=True)
-        return df
+        rows = []
+        while rs.next():
+            rows.append(rs.get_row_data())
+        bs.logout()
+        if rows:
+            df = pd.DataFrame(rows, columns=['date', 'open', 'close', 'high', 'low', 'volume', 'amount'])
+            df['date'] = pd.to_datetime(df['date'])
+            for col in ['open', 'high', 'low', 'close', 'volume', 'amount']:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+            df = df.dropna(subset=['close']).sort_values('date').reset_index(drop=True)
+            if not df.empty:
+                print(f"[INFO] {code}: using baostock fallback, got {len(df)} rows", file=sys.stderr)
+                return df
     except Exception as e:
-        print(f"[ERROR] fetch_stock_data: {e}", file=sys.stderr)
-        return None
+        print(f"[WARN] baostock fallback also failed for {code}: {e}", file=sys.stderr)
+        try: bs.logout()
+        except: pass
+    
+    print(f"[ERROR] All data sources failed for {code}", file=sys.stderr)
+    return None
 
 def get_stock_info_fast(code: str, df_hist: Optional[pd.DataFrame] = None) -> Dict[str, Any]:
     """从历史数据提取价格信息，避免额外 API 调用"""
@@ -528,7 +583,7 @@ def backtest(code):
 
     df = get_stock_data_cached(code)
     if df is None or df.empty:
-        return json_response({'success': False, 'error': f'无法获取股票数据: {code}'})
+        return json_response({'success': False, 'error': f'无法获取股票 {code} 的数据（可能为停牌、退市、科创板或网络异常），请稍后重试或尝试其他股票'})
 
     info = get_stock_info_fast(code, df)
     indicators = calculate_all_indicators(df)
@@ -554,7 +609,7 @@ def backtest(code):
 def get_indicators(code):
     df = get_stock_data_cached(code)
     if df is None or df.empty:
-        return json_response({'success': False, 'error': f'无法获取股票数据: {code}'})
+        return json_response({'success': False, 'error': f'无法获取股票 {code} 的数据（可能为停牌、退市、科创板或网络异常），请稍后重试或尝试其他股票'})
     indicators = calculate_all_indicators(df)
     info = get_stock_info_fast(code, df)
     return json_response({
@@ -589,8 +644,8 @@ if __name__ == '__main__':
         'bind': '127.0.0.1:18792',
         'workers': 4,
         'worker_class': 'sync',
-        'timeout': 120,
-        'keepalive': 5,
+        'timeout': 300,
+        'keepalive': 30,
         'on_starting': on_starting,
         'accesslog': '-',
         'errorlog': '-',
