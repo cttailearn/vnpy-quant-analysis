@@ -217,7 +217,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
                 
                 <!-- Signals -->
                 <div class="card" style="margin-top:0.75rem">
-                    <div class="card-header"><span class="icon">🎯</span>信号分析 <button id="copyBtn" onclick="copyIndicators()" style="margin-left:auto;padding:0.25rem 0.625rem;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:0.65rem;cursor:pointer;font-family:'Inter',sans-serif">📋 复制给AI分析</button></div>
+                    <div class="card-header"><span class="icon">🎯</span>信号分析 <button id="copyBtn" onclick="copyIndicators()" style="margin-left:auto;padding:0.25rem 0.625rem;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:0.65rem;cursor:pointer;font-family:'Inter',sans-serif">📋 复制完整数据</button></div>
                     <div class="card-body">
                         <div class="signals-header" id="signalBadges"></div>
                         <div id="signalsList"></div>
@@ -444,11 +444,17 @@ function copyIndicators() {
         `OBV能量潮：${fmt(ind.obv, 0)}`,
         ``,
         `─────────────────────────────────`,
-        `请基于以上原始数据，独立分析判断：`,
+        `请基于以上原始数据，独立分析判断并给出具体建议：`,
+        ``,
         `1. 当前走势处于什么趋势（多头/空头/震荡）？`,
         `2. 哪些指标处于超买或超卖状态？`,
         `3. 是否有背离或关键信号？`,
-        `4. 综合给出投资建议（买入/卖出/观望）及风险提示`,
+        ``,
+        `请给出以下具体数值建议：`,
+        `• 买入建议价位（推荐进场价格）及理由`,
+        `• 止损价位（亏损超过此价位建议离场）及理由`,
+        `• 止盈价位（目标卖出价格）及理由`,
+        `• 仓位建议（轻仓/半仓/满仓）及风险提示`,
         ``,
         `⚠️ 仅供参考，不构成投资建议，投资有风险，入市需谨慎`,
         `📌 数据来源：VeighNa 量化分析系统 · CTTAI`,
