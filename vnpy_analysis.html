@@ -217,7 +217,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
                 
                 <!-- Signals -->
                 <div class="card" style="margin-top:0.75rem">
-                    <div class="card-header"><span class="icon">🎯</span>信号分析 <button id="copyBtn" onclick="copyIndicators()" style="margin-left:auto;padding:0.25rem 0.625rem;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:0.65rem;cursor:pointer;font-family:'Inter',sans-serif">📋 复制指标</button></div>
+                    <div class="card-header"><span class="icon">🎯</span>信号分析 <button id="copyBtn" onclick="copyIndicators()" style="margin-left:auto;padding:0.25rem 0.625rem;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:0.65rem;cursor:pointer;font-family:'Inter',sans-serif">📋 复制给AI分析</button></div>
                     <div class="card-body">
                         <div class="signals-header" id="signalBadges"></div>
                         <div id="signalsList"></div>
@@ -386,40 +386,84 @@ function showResult() {
     document.getElementById('resultArea').classList.remove('hidden');
 }
 
-// ── Copy indicators to clipboard ────────────────────────────────────────
+// ── Copy ALL indicators to clipboard (for AI analysis) ─────────────────
 function copyIndicators() {
     const stock = document.getElementById('stockName').textContent || '';
+    const stockCode = document.getElementById('stockCode')?.textContent || '';
     const price = document.getElementById('stockPrice').textContent || '';
     const change = document.getElementById('stockChange').textContent || '';
     const score = document.getElementById('scoreNum')?.textContent || '';
     const bt = window._bt || {};
-    
+    const ind = window._ind || {};
+    const signals = window._signals || [];
+
+    const fmt = (v, d = 2) => (v == null || isNaN(v)) ? '--' : Number(v).toFixed(d);
+
     const lines = [
-        `📊 ${stock} 量化分析`,
-        `─────────────────────────────────`,
-        `价格: ${price}  ${change}`,
-        `综合评分: ${score}/100（${document.getElementById('scoreLabel')?.textContent || ''}）`,
-        `─────────────────────────────────`,
+        `请分析以下指标数据，给出详细的投资建议：`,
+        ``,
+        `【股票信息】`,
+        `${stock}（${stockCode}）`,
+        `当前价格：${price}　${change}`,
+        `综合评分：${score}/100（${document.getElementById('scoreLabel')?.textContent || ''}）`,
+        ``,
         `【回测参数】`,
-        `初始资金: ${bt.initial_capital ? Number(bt.initial_capital).toLocaleString() + ' 元' : '--'}`,
-        `最终资金: ${bt.final_capital ? Number(bt.final_capital).toLocaleString() + ' 元' : '--'}`,
-        `年化收益: ${bt.annualized_return != null ? bt.annualized_return + '%' : '--'}`,
-        `胜率: ${bt.win_rate != null ? bt.win_rate + '%' : '--'}`,
-        `盈亏比: ${bt.profit_loss_ratio != null ? bt.profit_loss_ratio + ' 倍' : '--'}`,
-        `最大回撤: ${bt.max_drawdown != null ? bt.max_drawdown + '%' : '--'}`,
-        `夏普比率: ${bt.sharpe_ratio != null ? bt.sharpe_ratio : '--'}`,
+        `初始资金：${bt.initial_capital ? Number(bt.initial_capital).toLocaleString() + ' 元' : '--'}`,
+        `最终资金：${bt.final_capital ? Number(bt.final_capital).toLocaleString() + ' 元' : '--'}`,
+        `年化收益率：${bt.annualized_return != null ? bt.annualized_return + '%' : '--'}`,
+        `总收益率：${bt.total_return != null ? bt.total_return + '%' : '--'}`,
+        `胜率：${bt.win_rate != null ? bt.win_rate + '%' : '--'}`,
+        `盈亏比：${bt.profit_loss_ratio != null ? bt.profit_loss_ratio + ' 倍' : '--'}`,
+        `最大回撤：${bt.max_drawdown != null ? bt.max_drawdown + '%' : '--'}`,
+        `夏普比率：${bt.sharpe_ratio != null ? bt.sharpe_ratio : '--'}`,
+        `索提诺比率：${bt.sortino_ratio != null ? bt.sortino_ratio : '--'}`,
+        `卡尔玛比率：${bt.calmar_ratio != null ? bt.calmar_ratio : '--'}`,
+        `Alpha：${bt.alpha != null ? bt.alpha + '%' : '--'}`,
+        `Beta：${bt.beta != null ? bt.beta : '--'}`,
+        `交易次数：${bt.total_trades != null ? bt.total_trades + ' 次' : '--'}`,
+        `盈利交易：${bt.winning_trades != null ? bt.winning_trades + ' 次' : '--'}`,
+        `亏损交易：${bt.losing_trades != null ? bt.losing_trades + ' 次' : '--'}`,
+        `平均持仓：${bt.avg_holding_period != null ? bt.avg_holding_period + ' 天' : '--'}`,
+        `平均盈利：${bt.avg_win != null ? bt.avg_win + '%' : '--'}`,
+        `平均亏损：${bt.avg_loss != null ? bt.avg_loss + '%' : '--'}`,
+        ``,
+        `【趋势类指标】`,
+        `MA5：${fmt(ind.sma_5)}　MA10：${fmt(ind.sma_10)}　MA20：${fmt(ind.sma_20)}　MA60：${fmt(ind.sma_60)}`,
+        `EMA12：${fmt(ind.ema_12)}　EMA26：${fmt(ind.ema_26)}`,
+        `ADX：${fmt(ind.adx)}　+DI：${fmt(ind.adx_plus)}　-DI：${fmt(ind.adx_minus)}`,
+        ``,
+        `【动量类指标】`,
+        `MACD：${fmt(ind.macd, 3)}　Signal：${fmt(ind.macd_signal, 3)}　Histogram：${fmt(ind.macd_hist, 3)}`,
+        `RSI6：${fmt(ind.rsi_6)}　RSI14：${fmt(ind.rsi_14)}　RSI26：${fmt(ind.rsi_26)}`,
+        `KDJ-K：${fmt(ind.kdj_k)}　KDJ-D：${fmt(ind.kdj_d)}　KDJ-J：${fmt(ind.kdj_j)}`,
+        `CCI：${fmt(ind.cci)}　威廉指标(WR)：${fmt(ind.wr)}`,
+        `ROC：${fmt(ind.roc, 3)}　PSY：${fmt(ind.psy)}`,
+        ``,
+        `【波动类指标】`,
+        `布林上轨：${fmt(ind.bb_upper)}　布林中轨：${fmt(ind.bb_middle)}　布林下轨：${fmt(ind.bb_lower)}`,
+        `ATR：${fmt(ind.atr)}`,
+        ``,
+        `【能量类指标】`,
+        `OBV：${fmt(ind.obv, 0)}`,
+        ``,
+        `【当前价格信息】`,
+        `最高价：${ind.current_high != null ? ind.current_high.toFixed(2) : '--'}　最低价：${ind.current_low != null ? ind.current_low.toFixed(2) : '--'}`,
+        `成交量：${ind.current_volume != null ? (ind.current_volume / 10000).toFixed(0) + ' 万' : '--'}`,
+        ``,
+        `【交易信号汇总】`,
+        ...signals.slice(0, 10).map(s => `• ${s.type}：${s.desc} → ${s.recommend}`),
+        ``,
         `─────────────────────────────────`,
-        `数据来源: VeighNa 量化分析 · CTTAI`,
-        `仅供参考，不构成投资建议`,
+        `请基于以上数据，分析当前走势，给出具体的投资建议（买入/卖出/观望）及风险提示。`,
+        ``,
+        `📌 数据来源：VeighNa 量化分析系统 · CTTAI`,
+        `⚠️ 仅供参考，不构成任何投资建议，投资有风险，入市需谨慎`,
     ];
-    
-    const text = lines.join('\n');
+
+    const text = lines.filter(l => l !== undefined).join('\n');
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copyBtn');
-        if (btn) {
-            btn.textContent = '✅ 已复制';
-            setTimeout(() => btn.textContent = '📋 复制指标', 2000);
-        }
+        if (btn) { btn.textContent = '✅ 已复制'; setTimeout(() => btn.textContent = '📋 复制给AI分析', 2500); }
     }).catch(() => {
         alert('复制失败，请手动复制');
     });
@@ -434,6 +478,8 @@ function renderResult(d) {
     
     // Store for copy function
     window._bt = bt;
+    window._ind = ind;
+    window._signals = signals;
 
     // ── Stock info ──
     const price = parseFloat(stock.price) || 0;
