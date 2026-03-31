@@ -15,6 +15,22 @@ import numpy as np
 import pandas as pd
 import akshare as ak
 from flask import Flask, request
+# ── Rate Limiter ─────────────────────────────────────────────────────────
+from collections import defaultdict
+from time import time as _time
+
+_IP_WINDOW = 60      # 60秒窗口
+_IP_LIMIT = 5         # 最多5次
+_ip_requests = defaultdict(list)
+
+def check_rate_limit(remote_addr: str) -> bool:
+    now = _time()
+    _ip_requests[remote_addr] = [t for t in _ip_requests[remote_addr] if now - t < _IP_WINDOW]
+    if len(_ip_requests[remote_addr]) >= _IP_LIMIT:
+        return False
+    _ip_requests[remote_addr].append(now)
+    return True
+
 
 warnings.filterwarnings('ignore')
 
@@ -40,8 +56,9 @@ def handle_exception(e):
     return json_response({'success': False, 'error': friendly})
 
 # ============ 配置 ============
-COMMISSION_RATE = 0.0015    # 双向佣金 0.15%（0.1%印花税只在卖出收，0.05%双向佣金）
-SLIPPAGE_RATE = 0.001       # 滑点 0.1%（乐观估计）
+COMMISSION_RATE = 0.0005    # 双向佣金（万一）
+SLIPPAGE_RATE = 0.0003     # 滑点
+STAMP_TAX = 0.001           # 印花税（仅卖出时）
 INITIAL_CAPITAL = 100000.0  # 初始资金 10万
 RISK_FREE_RATE = 0.03       # 无风险利率 3%
 
@@ -327,7 +344,6 @@ def calculate_all_indicators(df: pd.DataFrame) -> Dict[str, Any]:
         'adx': v(adx), 'adx_plus': v(plus_di), 'adx_minus': v(minus_di),
         'atr': v(atr), 'cci': v(cci), 'wr': v(wr),
         'momentum': v(mom), 'roc': v(roc),
-        'stoch_k': v(stoch_k), 'stoch_d': v(stoch_d),
         'psy': v(psy),
         'current_price': cur_price,
         'current_open': float(latest['open']),
@@ -441,10 +457,10 @@ def run_backtest(df: pd.DataFrame, fast_period: int, slow_period: int) -> Dict[s
             exit_price = float(df.iloc[i]['close'])
             exit_date = df.iloc[i]['date']
             holding_days = (exit_date - entry_date).days if entry_date else 0
-            # 扣成本：佣金+滑点
+            # 扣成本：佣金+滑点+印花税（卖出时）
             gross_pnl = (exit_price - entry_price) / entry_price
-            cost = COMMISSION_RATE + SLIPPAGE_RATE
-            net_pnl = (gross_pnl - cost) * 100  # 转为百分比
+            cost = COMMISSION_RATE + SLIPPAGE_RATE + STAMP_TAX  # 卖出收印花税
+            net_pnl = (gross_pnl - cost) * 100
             trades.append({
                 'entry_date': str(entry_date.date()) if entry_date else '',
                 'exit_date': str(exit_date.date()) if exit_date else '',
@@ -459,7 +475,7 @@ def run_backtest(df: pd.DataFrame, fast_period: int, slow_period: int) -> Dict[s
         last_close = float(df.iloc[-1]['close'])
         holding_days = (df.iloc[-1]['date'] - entry_date).days if entry_date else 0
         gross_pnl = (last_close - entry_price) / entry_price
-        net_pnl = (gross_pnl - (COMMISSION_RATE + SLIPPAGE_RATE)) * 100
+        net_pnl = (gross_pnl - (COMMISSION_RATE + SLIPPAGE_RATE + STAMP_TAX)) * 100
         trades.append({
             'entry_date': str(entry_date.date()) if entry_date else '',
             'exit_date': str(df.iloc[-1]['date'].date()) if entry_date else '',
@@ -550,6 +566,7 @@ def run_backtest(df: pd.DataFrame, fast_period: int, slow_period: int) -> Dict[s
         'final_capital': round(equity[-1], 2),
         'commission_rate': COMMISSION_RATE,
         'slippage_rate': SLIPPAGE_RATE,
+        'stamp_tax': STAMP_TAX,
         'trades': trades[:20],  # 最多返回20笔
         'equity_curve': [round(e, 2) for e in equity.tolist()],
     }
@@ -570,7 +587,11 @@ def _empty_backtest_result() -> Dict[str, Any]:
 
 # ============ API路由 ============
 @app.route('/api/backtest/<code>', methods=['GET'])
+
 def backtest(code):
+    remote = request.headers.get('X-Real-IP', request.remote_addr or '127.0.0.1')
+    if not check_rate_limit(remote):
+        return jsonify({'success': False, 'error': '请求过于频繁，请60秒后再试'}), 429
     try:
         fast = int(request.args.get('fast', 10))
         slow = int(request.args.get('slow', 20))
